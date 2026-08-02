@@ -1,4 +1,7 @@
+
 const mongoose = require("mongoose");
+console.log("MONGO_URI exists:", !!process.env.MONGO_URI);
+console.log("JWT exists:", !!process.env.JWT_SECRET);
 
 const connectDB = async () => {
     try {
