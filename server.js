@@ -1,28 +1,25 @@
 require("dotenv").config();
 
+const http = require("http");
+
 const app = require("./src/app");
 const connectDB = require("./src/config/db");
+const { initializeSocket } = require("./src/socket/socket");
 
 const PORT = process.env.PORT || 5000;
 
-const startServer = async () => {
-    try {
+// Connect Database
+connectDB();
 
-        // Wait for MongoDB to connect
-        await connectDB();
+// Create HTTP Server
+const server = http.createServer(app);
 
-        app.listen(PORT, () => {
-            console.log(`🚀 Server is running on port ${PORT}`);
-        });
+// Initialize Socket.IO
+initializeSocket(server);
 
-    } catch (error) {
+// Start Server
+server.listen(PORT, () => {
+    console.log(`🚀 Server is running on port ${PORT}`);
+});
 
-        console.error("❌ Failed to start server");
-        console.error(error.message);
-
-        process.exit(1);
-
-    }
-};
-
-startServer();
+module.exports = server;

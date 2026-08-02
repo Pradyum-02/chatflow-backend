@@ -3,6 +3,10 @@ const cors = require("cors");
 const morgan = require("morgan");
 const notFoundMiddleware = require("./middleware/notFoundMiddleware");
 const errorMiddleware = require("./middleware/errorMiddleware");
+const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
+const conversationRoutes = require("./routes/conversationRoutes");
+const messageRoutes = require("./routes/messageRoutes");
 
 const app = express();
 
@@ -27,8 +31,12 @@ app.get("/health", (req, res) => {
         message: "Backend Starter Kit is Healthy 🚀"
     });
 });
-
+app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/conversations", conversationRoutes);
+app.use("/api/v1/messages", messageRoutes);
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
+
 
 module.exports = app;
